@@ -2,9 +2,9 @@
   <div id="app">
     <container>
       <br>
-      <p v-if="isConnected">We're connected to the server!</p>
-      <btn color="default" v-on:click.native="connect">Connect to Broker</btn>
-      <btn color="danger" v-on:click.native="disconnect">Disconnect from Broker</btn>
+      <p v-if="isConnected">{{ statusBroker }}</p>
+      <btn color="default" v-on:click.native="connect" :disabled="!isDisable">Connect to Broker</btn>
+      <btn color="danger" v-on:click.native="disconnect" :disabled="isDisable">Disconnect from Broker</btn>
     </container>
     <br>
     <container>
@@ -57,6 +57,7 @@
 <script>
   import SockJS from 'sockjs-client'
   import Stomp from 'webstomp-client'
+  import alert from '../utils/alert-utils'
   import timeUtils from '../utils/time-utils'
   import {
     Btn,
@@ -98,29 +99,27 @@
         totalKey: 0,
         ramUsage: 0,
         clientConnect: 0,
-        upTime: 0
+        upTime: 0,
+        statusBroker: ''
       }
     },
     created() {
       // TODO set placeholder ui
       console.log(this.socketUrl)
     },
+    computed: {
+      isDisable() {
+        return !this.isConnected;
+      }
+    },
     methods: {
-      displayNotification(type, message) {
-        if (type === 'success') {
-          this.$snotify.success(message);
-        } else if (type === 'warning') {
-          this.$snotify.warning(message);
-        } else if (type === 'danger') {
-          this.$snotify.error(message);
-        }
-      },
-      connect() {
+      socketConnect() {
         this.socket = new SockJS(this.socketUrl);
         this.stompClient = Stomp.over(this.socket);
         this.stompClient.hasDebug = false;
+        this.isConnected = true;
+        this.statusBroker = 'Connecting';
         this.stompClient.connect({}, (frame) => {
-          this.isConnected = true;
           this.stompClient.subscribe('/redis', (message) => {
             let body = JSON.parse(message.body);
             this.items.push(body);
@@ -132,9 +131,10 @@
             this.ramUsage = body.data.Memory.used_memory_human;
             this.clientConnect = body.data.Clients.connected_clients;
             this.upTime = timeUtils.fancyTimeFormat(body.data.Server.uptime_in_seconds);
+            this.statusBroker = 'We\'re connected to the server!';
           })
         }, (error) => {
-          this.displayNotification('danger', error.reason);
+          alert('danger', error.reason);
           this.isConnected = false;
           this.totalKey = 0;
           this.ramUsage = 0;
@@ -142,7 +142,7 @@
           this.upTime = 0;
         })
       },
-      disconnect() {
+      socketDisconnect() {
         if (this.stompClient) {
           this.stompClient.disconnect()
         }
@@ -152,6 +152,16 @@
         this.ramUsage = 0;
         this.clientConnect = 0;
         this.upTime = 0;
+      },
+      connect() {
+        if (!this.isConnected) {
+          this.socketConnect();
+        }
+      },
+      disconnect() {
+        if (this.isConnected) {
+          this.socketDisconnect();
+        }
       }
     }
   }
