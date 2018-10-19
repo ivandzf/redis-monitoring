@@ -1,0 +1,35 @@
+jobs:
+  include:
+  - stage: test
+    language: java
+    jdk: oraclejdk8
+    install: true
+    script:
+    - ./mvnw test
+    cache:
+      directories:
+      - $HOME/.m2
+  - stage: build
+    language: java
+    jdk: oraclejdk8
+    install: true
+    script:
+    - ./mvnw clean package -DskipTests
+    cache:
+      directories:
+      - $HOME/.m2
+  - stage: deploy to staging heroku
+    language: java
+    jdk: oraclejdk8
+    cache:
+      directories:
+      - $HOME/.m2
+    deploy:
+      provider: heroku
+      api_key:
+        secure: I1SvsfZXHoiOJ4P40Lz3u80L/KzfUUY0E7EW/oMhUKir8lrX/Jvhp9F31JZ1GGKFnv6rw/KJyRcj3RVf7ojaQGPJQzaeWto90Ep8OIGx/hLAnK4qbNPjh1/+xFlbDMehipVxjGuFx/OFaK6G6IxsUkyr/ATem1CFKRMpJ3JJFT8DNeGkgN0VuGCTM3fc0Nb7oogiq1iOstN7L6hfxmU6LepF0EaPB7e2uDbnHaVOwCgksOjuUuto5p8FWH8RH9HNB9xp6wOk5q1QYL9wBRt5Yh+NcSTOGoHZugs0iYl22RpGePgLsgnitn0DkYxNRiji49aku+K/p2LG3igBq20Sq8fYWZ1OtYJBbBCqiT9BAtNKWuKjGnGmLz3pA7i0sEYVDj9FVxSK+v2FLgi5nbXYX5AJkeZshHBNPIiQlXl8qIBGDIiprEvDRreMyK8bIRklK7rR482m+34UGJPzhwSDfCaxI1SkTLvJob6aBT7Li+2s6woXstgIaiAZF0ghuw8CcePHbR67YB0lexegsoSp7YXBtIOOZocpuS8Vn/1mUcox7jfuBTCFQUdf1DsL1jKd+JjKcNN7K9NfEL8gO2R+5Oqud74PXSkVGZmEPuV8dYeIwQ9ECzb7EhA5mtPbGwSq2v3cSOZezH2jSSLQ5Hp5Fnr9kcuJkZC3JGzIR6sIjS8=
+      app: redis-monitoring-java-vue
+      on:
+        repo: ivandzf/redis-monitoring
+  - stage: test staging
+    script: 'curl https://redis-monitoring-java-vue.herokuapp.com/'
