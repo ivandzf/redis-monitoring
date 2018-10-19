@@ -3,6 +3,8 @@
 
 ![Home](https://github.com/ivandzf/redis-monitoring/blob/master/img/dashboard.png)
 
+[DEMO](https://redis-monitoring-java-vue.herokuapp.com/)
+
 ## Tech Stack
 *  Vue.js
 *  Springboot 1.5.14
@@ -26,4 +28,4 @@ open in your browser -> http://localhost:8080
 *  mvn clean package -DskipTests
 *  java -jar target/redis-monitoring-1.0-SNAPSHOT.jar
 
-open in your browser -> http://localhost:9999
+open in your browser -> http://localhost:8080

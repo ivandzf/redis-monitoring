@@ -5,31 +5,31 @@ jobs:
     jdk: oraclejdk8
     install: true
     script:
-    - ./mvnw test
+    - "./mvnw test"
     cache:
       directories:
-      - $HOME/.m2
+      - "$HOME/.m2"
   - stage: build
     language: java
     jdk: oraclejdk8
     install: true
     script:
-    - ./mvnw clean package -DskipTests
+    - "./mvnw clean package -DskipTests"
     cache:
       directories:
-      - $HOME/.m2
+      - "$HOME/.m2"
   - stage: deploy to staging heroku
     language: java
     jdk: oraclejdk8
     cache:
       directories:
-      - $HOME/.m2
+      - "$HOME/.m2"
     deploy:
       provider: heroku
       api_key:
-        secure: I1SvsfZXHoiOJ4P40Lz3u80L/KzfUUY0E7EW/oMhUKir8lrX/Jvhp9F31JZ1GGKFnv6rw/KJyRcj3RVf7ojaQGPJQzaeWto90Ep8OIGx/hLAnK4qbNPjh1/+xFlbDMehipVxjGuFx/OFaK6G6IxsUkyr/ATem1CFKRMpJ3JJFT8DNeGkgN0VuGCTM3fc0Nb7oogiq1iOstN7L6hfxmU6LepF0EaPB7e2uDbnHaVOwCgksOjuUuto5p8FWH8RH9HNB9xp6wOk5q1QYL9wBRt5Yh+NcSTOGoHZugs0iYl22RpGePgLsgnitn0DkYxNRiji49aku+K/p2LG3igBq20Sq8fYWZ1OtYJBbBCqiT9BAtNKWuKjGnGmLz3pA7i0sEYVDj9FVxSK+v2FLgi5nbXYX5AJkeZshHBNPIiQlXl8qIBGDIiprEvDRreMyK8bIRklK7rR482m+34UGJPzhwSDfCaxI1SkTLvJob6aBT7Li+2s6woXstgIaiAZF0ghuw8CcePHbR67YB0lexegsoSp7YXBtIOOZocpuS8Vn/1mUcox7jfuBTCFQUdf1DsL1jKd+JjKcNN7K9NfEL8gO2R+5Oqud74PXSkVGZmEPuV8dYeIwQ9ECzb7EhA5mtPbGwSq2v3cSOZezH2jSSLQ5Hp5Fnr9kcuJkZC3JGzIR6sIjS8=
+        secure: HwI/y5Ow/LsuAAaNFfLyJgedmfyrj1utl9uzqKgI8TcxdIOGCb9Ws2tR2/i023EC9vVqrr2NsNKevOHamGEEd3c+AxpfVI+LOux/wGdRfKGZDAehVgyo3xObYapPj6trQ4XAXnN1If0XUy7nxtJQ1ToSu5UbH6RjX8Uhz9+9aF9Ekh/4H415u3P4+TBj15H8XSBLgm5ZuwydsLwPQme7NYe5zna3Xkjmaevq4xQNgtGd68b9FPUd2PBgY+dLM+aDZUMUWfTneAA5yxRhUX0N9riXmR00x4ZIsXTWJKP7HSDVS9gs3f1hks2A6a9BgkmuXzcApo310xdWn0SfUMiHdAjNFngW6Q6bZxRLhQyP0nBd1qlvBjut3LGopi2fNBMxUxQOzAscI2vkhNB6Qpv93uScZ8zjVK8wXx2osKr3UuAcSbb9fTkccQ3Jm5dujlqdRS1qktoSBhEXhxsONk4awGlkbSjNFULQibIYBP7TTyWpDSZ2j+NEhI+1Lknch0V6APRXmBqw+4TheWNvrupfuFZBxW4c5SikxjAMGduXr8el1dd6MlsaDZykPaVtwVds2ivEPGy9Xp038LSILkoGY+sFVPoIJ/M67fuBUDgGK6NBgTm2kgaO1KtU0FisaTnV8DNThyy1Bhz2bKmYZGR6hLrR5ImkPispXjJM6YVX1xc=
       app: redis-monitoring-java-vue
       on:
         repo: ivandzf/redis-monitoring
   - stage: test staging
-    script: 'curl https://redis-monitoring-java-vue.herokuapp.com/'
+    script: curl https://redis-monitoring-java-vue.herokuapp.com/
