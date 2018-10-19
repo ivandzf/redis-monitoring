@@ -1,4 +1,5 @@
 # Redis Monitoring
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/27d0e36a6c534dabb588a0766932a6d6)](https://www.codacy.com/app/ivandzf/redis-monitoring?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ivandzf/redis-monitoring&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/ivandzf/redis-monitoring.svg?branch=master)](https://travis-ci.org/ivandzf/redis-monitoring)
 
 ![Home](https://github.com/ivandzf/redis-monitoring/blob/master/img/dashboard.png)
