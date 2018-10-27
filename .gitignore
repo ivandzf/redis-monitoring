@@ -16,3 +16,7 @@ yarn-error.log*
 *.iml
 target
 src/main/resources/static
+.classpath
+.factorypath
+.project
+.settings/

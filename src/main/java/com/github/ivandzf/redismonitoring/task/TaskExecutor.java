@@ -30,12 +30,12 @@ public class TaskExecutor {
         this.redisService = redisService;
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 5000)
     public void doIt() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.add("data", gson.toJsonTree(redisService.getRedisInformation()));
         jsonObject.addProperty("dateTime", new SimpleDateFormat("dd/MM/YYYY hh:mm:ss:SS").format(new Date()));
-        this.simpMessagingTemplate.convertAndSend("/redis", gson.toJson(jsonObject));
+        this.simpMessagingTemplate.convertAndSend("/info", gson.toJson(jsonObject));
     }
 
 }

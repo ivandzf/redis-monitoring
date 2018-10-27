@@ -7,10 +7,11 @@
       <navbar-collapse>
         <navbar-nav right>
           <navbar-item router exact href="/" waves-fixed>Home</navbar-item>
+          <navbar-item router exact href="/signin" waves-fixed>Login</navbar-item>
         </navbar-nav>
       </navbar-collapse>
     </navbar>
-    <main :style="{marginTop: '60px'}">
+    <main>
       <vue-snotify></vue-snotify>
       <router-view></router-view>
     </main>
@@ -34,6 +35,10 @@
 </script>
 
 <style>
+  main {
+    margin-top: 80px;
+  }
+
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

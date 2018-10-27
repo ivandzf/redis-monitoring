@@ -1,21 +1,23 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import 'bootstrap-css-only/css/bootstrap.min.css';
-import '../build/css/mdb.css';
-import Snotify from 'vue-snotify';
-// You also need to import the styles. If you're using webpack's css-loader, you can do so here:
-import 'vue-snotify/styles/material.css'; // or dark.css or simple.css
+import Vue from "vue";
+import App from "./App";
+import router from "./router";
+import "bootstrap-css-only/css/bootstrap.min.css";
+import "../build/css/mdb.css";
+import { store } from "./store/store";
+import displayNotification from "./utils/notification-utils";
 
-Vue.use(Snotify);
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
-/* eslint-disable no-new */
+Vue.mixin({
+  methods: {
+    displayNotification
+  }
+})
+
 new Vue({
-  el: '#app',
-  router,
-  components: {App},
-  template: '<App/>',
+  el: "#app",
+  router: router,
+  store: store,
+  components: { App },
+  template: "<App/>"
 });

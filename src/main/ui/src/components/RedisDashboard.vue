@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <container>
-      <br>
       <p v-if="isConnected">{{ statusBroker }}</p>
       <btn color="default" v-on:click.native="connect" :disabled="!isDisable">Connect to Broker</btn>
       <btn color="danger" v-on:click.native="disconnect" :disabled="isDisable">Disconnect from Broker</btn>
@@ -120,12 +119,12 @@
         this.isConnected = true;
         this.statusBroker = 'Connecting';
         this.stompClient.connect({}, (frame) => {
-          this.stompClient.subscribe('/redis', (message) => {
+          this.stompClient.subscribe('/info', (message) => {
             let body = JSON.parse(message.body);
             this.items.push(body);
             let total = 0;
             for (let key in body.data.Keyspace) {
-              total += parseInt(body.data.Keyspace[key].keys);
+              total = total + parseInt(body.data.Keyspace[key].keys);
             }
             this.totalKey = total;
             this.ramUsage = body.data.Memory.used_memory_human;
