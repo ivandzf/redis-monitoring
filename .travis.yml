@@ -19,6 +19,7 @@ jobs:
       directories:
       - "$HOME/.m2"
   - stage: deploy to staging heroku
+    if: branch = master
     language: java
     jdk: oraclejdk8
     cache:
@@ -31,5 +32,7 @@ jobs:
       app: redis-monitoring-java-vue
       on:
         repo: ivandzf/redis-monitoring
+        branch: master
   - stage: test staging
+    if: branch = master
     script: curl https://redis-monitoring-java-vue.herokuapp.com/
