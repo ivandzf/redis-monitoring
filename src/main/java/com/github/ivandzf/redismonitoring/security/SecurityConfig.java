@@ -34,10 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/dist/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new LoginFilter("/api/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

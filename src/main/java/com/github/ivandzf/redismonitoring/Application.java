@@ -16,12 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
  * Documentation here !!
  */
 @SpringBootApplication
+@RestController
 public class Application {
 
     public static void main(String[] args) {
         final SpringApplication application = new SpringApplication(Application.class);
         application.setBannerMode(Banner.Mode.OFF);
         application.run(args);
+    }
+
+    @GetMapping("/api/test")
+    public String test(Authentication authentication) {
+        return authentication.getAuthorities().toString();
     }
 
 }
