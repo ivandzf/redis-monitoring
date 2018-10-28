@@ -6,8 +6,8 @@
           <card-title class="text-center">Login</card-title>
           <form>
             <div class="grey-text">
-              <mdb-input label="Username" icon="user" type="text"/>
-              <mdb-input label="Password" icon="lock" type="password"/>
+              <mdb-input label="Username" icon="user" type="text" v-model="username"/>
+              <mdb-input label="Password" icon="lock" type="password" v-model="password"/>
             </div>
             <div class="text-center">
               <btn v-on:click.native="login">Login</btn>
@@ -24,6 +24,12 @@
 
   export default {
     name: 'Login',
+    data() {
+      return {
+      username: '',
+      password: ''
+      }
+    },
     components: {
       Container,
       Card,
@@ -34,8 +40,7 @@
     },
     methods: {
       login() {
-        console.log('aa')
-        this.$store.dispatch('login')
+        this.$store.dispatch('login', {username: this.username, password: this.password})
       }
     }
   };

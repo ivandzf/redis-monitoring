@@ -1,26 +1,26 @@
 import Login from "../../api/login";
 
-const state = {
-    
-};
+const state = {};
 
-const getters = {
-    
-};
+const getters = {};
 
-const mutations = {
-    
-};
+const mutations = {};
 
 const actions = {
-    login(context) {
-         Login.doLogin()
-    }
+  login(context, data) {
+    Login.doLogin(data)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 };
 
 export default {
-    state,
-    getters,
-    mutations,
-    actions
+  state,
+  getters,
+  mutations,
+  actions
 };

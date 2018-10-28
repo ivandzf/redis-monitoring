@@ -18,8 +18,13 @@ axiosInstance.interceptors.response.use(function (response) {
 })
 
 class HttpRequest {
-    constructor() {
-        this.axios = axios
+
+    setJsonContentType() {
+        return {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
     }
 
     setHeader(header) {
@@ -32,8 +37,8 @@ class HttpRequest {
         })
     }
 
-    post(methodName, data) {
-        return axiosInstance.post(methodName, data)
+    post(methodName, data, config) {
+        return axiosInstance.post(methodName, data, config)
     }
 
     update(methodName, data) {
@@ -44,17 +49,6 @@ class HttpRequest {
         return axiosInstance.delete(methodName, { params: { id: id } })
     }
 
-    request(type, url, data) {
-        let promise = null
-        switch (type) {
-            case 'GET': promise = axios.get(url, { params: data }); break
-            case 'POST': promise = axios.post(url, data); break
-            case 'PUT': promise = axios.put(url, data); break
-            case 'DELETE': promise = axios.delete(url, data); break
-            default: promise = axios.get(url, { params: data }); break
-        }
-        return promise
-    }
 }
 
 export default HttpRequest

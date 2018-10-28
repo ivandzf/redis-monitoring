@@ -1,13 +1,18 @@
-import HttpRequest from './index'
+import HttpRequest from "./index";
+import { rejects } from "assert";
 
 class Login extends HttpRequest {
-    doLogin(data) {
-        this.setHeader({
-            key: 'ContentType',
-            value: 'application/xxx-formurl-encode'
+  doLogin(data) {
+    return new Promise((resolve, rejects) => {
+      this.post("/login", data, this.setJsonContentType)
+        .then(response => {
+          resolve(response);
         })
-        return this.post('/login');
-    }
+        .catch(error => {
+          rejects(error);
+        });
+    });
+  }
 }
 
-export default new Login()
+export default new Login();
