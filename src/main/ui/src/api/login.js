@@ -1,10 +1,9 @@
 import HttpRequest from "./index";
-import { rejects } from "assert";
 
 class Login extends HttpRequest {
   doLogin(data) {
     return new Promise((resolve, rejects) => {
-      this.post("/login", data, this.setJsonContentType)
+      this.post("/login", data, this.setHeader(this.jsonContentHeader))
         .then(response => {
           resolve(response);
         })

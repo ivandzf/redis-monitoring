@@ -9,26 +9,28 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
  * redis-monitoring
  *
- * @author Divananda Zikry Fadilla (27 October 2018)
+ * @author Divananda Zikry Fadilla (29 October 2018)
  * Email: divanandazf@gmail.com
  * <p>
  * Documentation here !!
  */
 @Configuration
 @EnableWebSecurity
-@Profile("development")
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@Profile("production")
+public class WebSecurityProductionConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
                 .and()
-                .csrf().disable()
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/socket/**").authenticated()

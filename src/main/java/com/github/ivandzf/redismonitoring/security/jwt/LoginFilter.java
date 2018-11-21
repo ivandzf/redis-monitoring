@@ -1,11 +1,11 @@
 package com.github.ivandzf.redismonitoring.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -34,7 +34,13 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+        User user = new User();
+
+        try {
+            user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+        } catch (IOException e) {
+            response.sendError(HttpStatus.BAD_REQUEST.value());
+        }
 
         return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(
                 user.getUsername(),
@@ -45,7 +51,8 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        TokenAuthenticationService.addAuthentication(response, authResult);
+//        TokenAuthenticationService.addAuthentication(response, authResult);
+        SecurityContextHolder.getContext().setAuthentication(authResult);
     }
 
 

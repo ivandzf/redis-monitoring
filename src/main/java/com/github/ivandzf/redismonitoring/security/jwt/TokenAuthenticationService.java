@@ -1,6 +1,8 @@
 package com.github.ivandzf.redismonitoring.security.jwt;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -9,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class TokenAuthenticationService {
     private static final String HEADER_STRING = "Authorization";
     private static final Gson gson = new Gson();
 
-    static void addAuthentication(HttpServletResponse httpServletResponse, Authentication authentication) {
+    static void addAuthentication(HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
         String jwt = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("roles", authentication.getAuthorities())
@@ -39,8 +40,20 @@ public class TokenAuthenticationService {
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
 
-        httpServletResponse.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + jwt);
-        httpServletResponse.addCookie(new Cookie("token", jwt));
+        JsonArray roles = new JsonArray();
+        authentication.getAuthorities().forEach(o -> roles.add(o.toString()));
+
+        JsonObject auth = new JsonObject();
+        auth.addProperty("prefix", TOKEN_PREFIX);
+        auth.addProperty("name", HEADER_STRING);
+        auth.addProperty("token", jwt);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("user", authentication.getName());
+        jsonObject.add("roles", roles);
+        jsonObject.add("auth", auth);
+
+        httpServletResponse.getWriter().print(jsonObject);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

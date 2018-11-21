@@ -1,13 +1,14 @@
 <template>
   <div id="app" class="flyout">
-    <navbar dark position="top" class="default-color" scrolling>
+    <navbar dark position="top" class="elegant-color" scrolling>
       <mdb-navbar-brand href="#/" style="font-weight: bolder;">
-        Redis Monitoring
+        <img src="./assets/redis.png" width="40"/>
+         Redis Monitoring
       </mdb-navbar-brand>
       <navbar-collapse>
         <navbar-nav right>
           <navbar-item router exact href="/" waves-fixed>Home</navbar-item>
-          <navbar-item router exact href="/signin" waves-fixed>Login</navbar-item>
+          <navbar-item router exact href="/login" waves-fixed>Login</navbar-item>
         </navbar-nav>
       </navbar-collapse>
     </navbar>

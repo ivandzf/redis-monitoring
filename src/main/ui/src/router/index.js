@@ -13,7 +13,7 @@ export default new Router({
       component: RedisDashboard
     },
     {
-      path: '/signin',
+      path: '/login',
       name: 'Login',
       component: Login
     }

@@ -3,9 +3,6 @@ package com.github.ivandzf.redismonitoring.security.jwt;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.Collection;
 
 /**
  * redis-monitoring

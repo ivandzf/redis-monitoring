@@ -3,14 +3,21 @@
     <div class="d-flex justify-content-center">
       <card class="w-50">
         <card-body>
-          <card-title class="text-center">Login</card-title>
-          <form>
-            <div class="grey-text">
-              <mdb-input label="Username" icon="user" type="text" v-model="username"/>
-              <mdb-input label="Password" icon="lock" type="password" v-model="password"/>
-            </div>
+          <card-title class="text-center">Login Monitoring</card-title>
+          <hr/>
+          <form class="need-validation" novalidate="true" @submit.prevent="login">
+              <div class="form-group" :class="{'has-error': errors.has('username') }" >
+                <label class="control-label" for="username">Username</label>
+                <input v-model="username" name="username" v-validate="'required'" class="form-control" type="text" required>
+                <p class="text-danger text-validate" v-if="errors.has('username')">Username cannot be empty.</p>
+              </div>
+              <div class="form-group" :class="{'has-error': errors.has('password') }" >
+                <label class="control-label" for="password">Password</label>
+                <input v-model="password" name="password" v-validate="'required'" class="form-control" type="password" required>
+                <p class="text-danger text-validate" v-if="errors.has('password')">Password cannot be empty.</p>
+              </div>
             <div class="text-center">
-              <btn v-on:click.native="login">Login</btn>
+              <btn color="blue">Login</btn>
             </div>
           </form>
         </card-body>
@@ -20,7 +27,7 @@
 </template>
 
 <script>
-  import {Btn, Card, CardBody, CardTitle, Container, mdbInput} from 'mdbvue';
+  import {Btn, Card, CardBody, CardTitle, Container} from 'mdbvue';
 
   export default {
     name: 'Login',
@@ -35,12 +42,22 @@
       Card,
       CardBody,
       CardTitle,
-      Btn,
-      mdbInput
+      Btn
     },
     methods: {
-      login() {
-        this.$store.dispatch('login', {username: this.username, password: this.password})
+      login(event) {
+        this.$validator.validate().then(result => {
+          event.target.classList.add('was-validated');
+          if (result) {
+            this.$store.dispatch('login', {
+                username: this.username,
+                password: this.password
+            })
+            .then(response => {
+              this.$router.push({name: 'RedisDashboard'})
+            })
+          }
+        });
       }
     }
   };
@@ -49,5 +66,10 @@
 <style scoped>
 .d-flex {
   margin-top: 50px;
+}
+
+.text-validate {
+  margin-top: 2px;
+  font-size: 13px;
 }
 </style>

@@ -2,8 +2,8 @@
   <div id="app">
     <container>
       <p v-if="isConnected">{{ message }}</p>
-      <btn color="default" v-on:click.native="connect" :disabled="isConnected">Connect to Broker</btn>
-      <btn color="danger" v-on:click.native="disconnect" :disabled="!isConnected">Disconnect from Broker</btn>
+      <btn color="blue" v-on:click.native="connect" :disabled="isConnected">Connect to Broker</btn>
+      <btn color="red" v-on:click.native="disconnect" :disabled="!isConnected">Disconnect from Broker</btn>
     </container>
     <br>
     <container>
@@ -97,9 +97,6 @@
           message: String
       }
     },
-    created() {
-      
-    },
     computed: {
       isConnected() {
           return this.$store.getters.isBrokerConnected
@@ -112,7 +109,7 @@
         .then(() => {
             this.message = 'We\'re connected to the server!'
         })
-        .catch(error => this.displayNotification('danger', error.reason))
+        .catch(error => this.$notification('danger',error.reason))
       },
       disconnect() {
           return this.$store.dispatch('disconnectMessageBroker')

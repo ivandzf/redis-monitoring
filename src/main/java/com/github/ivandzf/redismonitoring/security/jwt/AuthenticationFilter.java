@@ -8,7 +8,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -24,7 +23,11 @@ public class AuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        TokenAuthenticationService.getAuthentication((HttpServletRequest) request, (HttpServletResponse) response);
+//        TokenAuthenticationService.getAuthentication((HttpServletRequest) request, (HttpServletResponse) response);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (!SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+//            ((HttpServletResponse) response).sendError(401);
+//        }
         chain.doFilter(request, response);
     }
 

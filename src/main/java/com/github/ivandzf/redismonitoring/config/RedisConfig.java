@@ -25,11 +25,11 @@ public class RedisConfig {
     public RedisCommands<String, String> redisCommands() {
         RedisURI redisURI = RedisURI
                 .builder()
-                .withHost("redis-15962.c10.us-east-1-2.ec2.cloud.redislabs.com")
-                .withPort(15962)
-                .withPassword("HRP9A9DzNK0k0bVI5ZzLcBJcXtazP7mo")
-//                .withHost("localhost")
-//                .withPort(6379)
+//                .withHost("redis-15962.c10.us-east-1-2.ec2.cloud.redislabs.com")
+//                .withPort(15962)
+//                .withPassword("HRP9A9DzNK0k0bVI5ZzLcBJcXtazP7mo")
+                .withHost("localhost")
+                .withPort(6379)
                 .build();
 
         RedisClient redisClient = RedisClient.create(redisURI);
