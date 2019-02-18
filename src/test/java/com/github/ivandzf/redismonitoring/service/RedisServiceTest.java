@@ -3,8 +3,12 @@ package com.github.ivandzf.redismonitoring.service;
 import com.github.ivandzf.redismonitoring.BaseTest;
 import org.junit.Assert;
 import org.junit.Test;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 import org.springframework.beans.factory.annotation.Autowired;
+import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,8 +26,8 @@ public class RedisServiceTest extends BaseTest {
 
     @Test
     public void getRedisInformationTest() {
-        Map<String, ?> map = redisService.getRedisInformation();
-        Assert.assertNotNull(map);
+        redisService.getRedisInformation().subscribe(o -> {
+        });
     }
 
 }

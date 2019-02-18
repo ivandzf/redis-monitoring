@@ -4,6 +4,8 @@ import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.TimeoutOptions;
+import io.lettuce.core.api.reactive.RedisReactiveCommands;
+import io.lettuce.core.api.reactive.RedisStringReactiveCommands;
 import io.lettuce.core.api.sync.RedisCommands;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +24,7 @@ import java.time.Duration;
 public class RedisConfig {
 
     @Bean
-    public RedisCommands<String, String> redisCommands() {
+    public RedisReactiveCommands<String, String> redisReactiveCommands() {
         RedisURI redisURI = RedisURI
                 .builder()
 //                .withHost("redis-15962.c10.us-east-1-2.ec2.cloud.redislabs.com")
@@ -37,7 +39,7 @@ public class RedisConfig {
                 .autoReconnect(true)
                 .timeoutOptions(TimeoutOptions.enabled(Duration.ofSeconds(30L)))
                 .build());
-        return redisClient.connect().sync();
+        return redisClient.connect().reactive();
     }
 
 }

@@ -1,5 +1,4 @@
-import SockJS from "sockjs-client";
-import Stomp from "webstomp-client";
+import fromEventSource from "../../api/dashboard";
 
 const state = {
   isBrokerConnected: false,
@@ -25,29 +24,14 @@ const mutations = {
 };
 
 const actions = {
-  connectMessageBroker(context) {
-    this.socket = new SockJS(process.env.SOCKET_URL);
-    this.stompClient = Stomp.over(this.socket);
-    this.stompClient.hasDebug = false;
-    return new Promise((resolve, reject) => {
-      this.stompClient.connect(
-        {},
-        frame => {
-          context.commit("changeBrokerStatus");
-          this.stompClient.subscribe("/info", message => {
-              console.log(JSON.parse(message.body));
-          });
-          resolve();
-        },
-        error => {
-          reject(error);
-        }
-      );
-    });
+  connect(context) {
+    context.commit("changeBrokerStatus");
+    const eventSource = new EventSource(process.env.SSE_URL);
+    eventSource.onopen
+    // fromEventSource().subscribe(val => console.log(val));
   },
-  disconnectMessageBroker(context) {
+  disconnect(context) {
     if (context.getters.isBrokerConnected) {
-      this.stompClient.disconnect();
       context.commit("changeBrokerStatus");
     }
   }

@@ -31,10 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
-                .antMatchers("/socket/**").authenticated()
                 .antMatchers("/").permitAll()
                 .antMatchers("/dist/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and().addFilterBefore(new LoginFilter("/api/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
@@ -44,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .inMemoryAuthentication()
                 .withUser("admin")
-                .password("admin")
+                .password("{noop}admin")
                 .roles("ADMIN")
                 .and()
                 .withUser("user")

@@ -3,7 +3,6 @@ import Snotify from "vue-snotify";
 import "vue-snotify/styles/material.css";
 
 const Notification = {
-
     install(Vue, options) {
         Vue.use(Snotify);
 

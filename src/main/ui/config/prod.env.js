@@ -1,6 +1,6 @@
 "use strict";
 module.exports = {
   NODE_ENV: '"production"',
-  SOCKET_URL: '"/socket"',
+  SSE_URL: '"/redis/info"',
   API_URL: '"/api"'
 };

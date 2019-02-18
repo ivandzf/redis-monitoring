@@ -3,7 +3,11 @@
     <container>
       <p v-if="isConnected">{{ message }}</p>
       <btn color="blue" v-on:click.native="connect" :disabled="isConnected">Connect to Broker</btn>
-      <btn color="red" v-on:click.native="disconnect" :disabled="!isConnected">Disconnect from Broker</btn>
+      <btn
+        color="red"
+        v-on:click.native="disconnect"
+        :disabled="!isConnected"
+      >Disconnect from Broker</btn>
     </container>
     <br>
     <container>
@@ -54,68 +58,64 @@
 </template>
 
 <script>
-  import timeUtils from '../utils/time-utils'
-  import {
+import timeUtils from "../utils/time-utils";
+import {
+  Btn,
+  Card,
+  CardBody,
+  CardImg,
+  CardText,
+  CardTitle,
+  Column,
+  Container,
+  Fa,
+  MdMask,
+  Row,
+  ViewWrapper
+} from "mdbvue";
+
+export default {
+  name: "RedisDashboard",
+  components: {
     Btn,
+    Row,
+    Column,
+    ViewWrapper,
     Card,
-    CardBody,
+    MdMask,
+    Container,
     CardImg,
+    CardBody,
     CardText,
     CardTitle,
-    Column,
-    Container,
-    Fa,
-    MdMask,
-    Row,
-    ViewWrapper
-  } from 'mdbvue'
-
-  export default {
-    name: 'RedisDashboard',
-    components: {
-      Btn,
-      Row,
-      Column,
-      ViewWrapper,
-      Card,
-      MdMask,
-      Container,
-      CardImg,
-      CardBody,
-      CardText,
-      CardTitle,
-      Fa
-    },
-    data() {
-      return {
-          info: {
-            totalKey: 0,
-            ramUsage: 0,
-            clientConnected: 0,
-            upTime: 0
-          },
-          message: String
-      }
-    },
-    computed: {
-      isConnected() {
-          return this.$store.getters.isBrokerConnected
-      }
-    },
-    methods: {
-      connect() {
-        this.message = 'Connecting';
-        this.$store.dispatch('connectMessageBroker')
-        .then(() => {
-            this.message = 'We\'re connected to the server!'
-        })
-        .catch(error => this.$notification('danger',error.reason))
+    Fa
+  },
+  data() {
+    return {
+      info: {
+        totalKey: 0,
+        ramUsage: 0,
+        clientConnected: 0,
+        upTime: 0
       },
-      disconnect() {
-          return this.$store.dispatch('disconnectMessageBroker')
-      }
+      message: String
+    };
+  },
+  computed: {
+    isConnected() {
+      return this.$store.getters.isBrokerConnected;
+    }
+  },
+  methods: {
+    connect() {
+      this.message = "Connecting";
+      this.$store.dispatch("connect");
+    },
+    disconnect() {
+      return this.$store.dispatch("disconnect");
     }
   }
+};
 </script>
 
 <style scoped>
